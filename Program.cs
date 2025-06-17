@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Writers;
+using Scalar.AspNetCore;
 using VendingMachineApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,9 +26,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference(opt =>
+    {
+        opt
+        .WithBaseServerUrl("/scalar")
+        .WithTitle("Vending machine api")
+        .WithTheme(ScalarTheme.BluePlanet)
+        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+    });
 }
 app.UseHealthChecks("/healtz");
-
 using (var scope = app.Services.CreateScope())
 {
     if (!scope.ServiceProvider.GetService<AppDbContext>()!.Database.CanConnect())
@@ -37,5 +45,5 @@ using (var scope = app.Services.CreateScope())
     if (postgres.Status != HealthStatus.Healthy)
         throw new Exception("Db is unhealthy");
 }
-
+app.MapGet("/lol", () => "hello");
 app.Run();
