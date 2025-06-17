@@ -4,6 +4,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Writers;
 using Scalar.AspNetCore;
 using VendingMachineApi;
+using VendingMachineApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,11 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddHealthChecks().AddDbContextCheck<AppDbContext>();
 
 builder.Services.AddOpenApi();
-var app = builder.Build();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GloabalExceptionHandler>();
 
+var app = builder.Build();
+app.UseExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -45,5 +49,4 @@ using (var scope = app.Services.CreateScope())
     if (postgres.Status != HealthStatus.Healthy)
         throw new Exception("Db is unhealthy");
 }
-app.MapGet("/lol", () => "hello");
 app.Run();
