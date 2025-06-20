@@ -53,5 +53,36 @@ namespace VendingMachineApi.Repositories
             product.Amount -= delta;
             return await _context.SaveChangesAsync() > 0;
         }
+        //maybe use dapper to write custom sql with higher perfomance
+        public async Task<int> GetTotal(List<ProductQuantity> products)
+        {
+            int[] ids = products.Select(p => p.ProductId).ToArray();
+            var info = await _products
+                .AsNoTracking()
+                .Where(p => ids.Contains(p.Id))
+                .Select(p =>
+                new
+                {
+                    p.Id,
+                    p.Price,
+                    p.Amount
+                })
+                .ToListAsync();
+            var productInfoWithQuantityAndPrice = info.Join(products, i => i.Id, p => p.ProductId, (inf, pr) =>
+                new
+                {
+                    inf.Amount,
+                    inf.Price,
+                    pr.Quantity
+                });
+            return productInfoWithQuantityAndPrice.Sum(inf => inf.Price * inf.Quantity);
+        }
+
+        public async Task<Product?> GetById(int id)
+        {
+            return await _products
+                .AsNoTracking()
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace VendingMachineApi.Models
 {
+     
     public class Coin
     {
         public static int[] AvailableValues = [1, 2, 5, 10];

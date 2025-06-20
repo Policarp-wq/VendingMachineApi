@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VendingMachineApi.ApiContracts;
 using VendingMachineApi.Exceptions;
 using VendingMachineApi.Models;
 
@@ -28,7 +29,7 @@ namespace VendingMachineApi.Repositories
         public async Task<bool> UpdateCoinAmount(int value, int delta)
         {
             if (!Coin.AvailableValues.Contains(value))
-                throw new InvalidOperation($"Value must be 1, 2, 5 or 10"); //change to not hardcoded
+                throw new InvalidOperation($"Value must be 1, 2, 5 or 10"); //change to be not hardcoded
             if (delta <= 0)
                 return await ReduceCoin(value, -delta);
             else return await AddCoin(value, delta);

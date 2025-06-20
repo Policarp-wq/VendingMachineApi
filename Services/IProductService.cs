@@ -2,15 +2,15 @@
 using VendingMachineApi.Filters;
 using VendingMachineApi.Models;
 
-namespace VendingMachineApi.Repositories
+namespace VendingMachineApi.Services
 {
-    public interface IProductRepository
+    public interface IProductService
     {
         Task<Product> CreateProduct(ProductCreateInfo createInfo);
-        Task<int> GetTotal(List<ProductQuantity> products);
         Task<IEnumerable<Product>> GetAll();
         Task<Product?> GetById(int id);
         Task<IEnumerable<Product>> GetFiltered(ProductFilter filter);
+        Task<int> GetTotal(List<ProductQuantity> products);
         Task<bool> ReduceAmount(int productId, int delta);
     }
 }
