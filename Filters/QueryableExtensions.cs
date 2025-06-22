@@ -6,10 +6,12 @@ namespace VendingMachineApi.Filters
     {
         public static IQueryable<Product> ApplyFilters(this IQueryable<Product> q, ProductFilter filter)
         {
-            if (filter.BrandId != null)
-                q = q.Where(p => p.BrandId == filter.BrandId);
-            if(filter.MinPrice != null && filter.MaxPrice != null)
-                q = q.Where(p => p.Price >=  filter.MinPrice && p.Price <= filter.MaxPrice);
+            if (!string.IsNullOrWhiteSpace(filter.Brand))
+                q = q.Where(p => p.Brand.Equals(filter.Brand));
+            if (filter.MinPrice != null)
+                q = q.Where(p => p.Price >= filter.MinPrice);
+            if (filter.MaxPrice != null)
+                q = q.Where(p => p.Price <= filter.MaxPrice);
             return q;
         }
     }

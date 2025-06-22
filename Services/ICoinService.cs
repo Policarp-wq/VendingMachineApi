@@ -6,7 +6,7 @@ namespace VendingMachineApi.Services
     public interface ICoinService
     {
         Task AddCoin(CoinQuantity coinQuantity);
-        Task<IEnumerable<Coin>> GetAll();
+        Task<List<Coin>> GetAll();
         Task ReduceCoin(CoinQuantity coinQuantity);
     }
 }

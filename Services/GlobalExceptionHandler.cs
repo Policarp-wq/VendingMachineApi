@@ -4,7 +4,7 @@ using VendingMachineApi.Exceptions;
 
 namespace VendingMachineApi.Services
 {
-    public class GloabalExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
+    public class GlobalExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {

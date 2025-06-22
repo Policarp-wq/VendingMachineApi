@@ -2,8 +2,15 @@
 {
     public class ProductFilter
     {
-        public int? BrandId { get; set; }
+        public string? Brand { get; set; }
         public int? MinPrice { get; set; }
         public int? MaxPrice { get; set; }
+
+        public ProductFilter(string? brandId, int? minPrice, int? maxPrice)
+        {
+            Brand = brandId;
+            MinPrice = minPrice;
+            MaxPrice = maxPrice;
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace VendingMachineApi
         public DbSet<Order> Orders => Set<Order>();
         public AppDbContext(DbContextOptions options) : base(options)
         {
+            Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

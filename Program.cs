@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.OpenApi.Writers;
 using Scalar.AspNetCore;
 using VendingMachineApi;
+using VendingMachineApi.Endpoints;
+using VendingMachineApi.Extensions;
 using VendingMachineApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +23,8 @@ builder.Services.AddHealthChecks().AddDbContextCheck<AppDbContext>();
 
 builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
-builder.Services.AddExceptionHandler<GloabalExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.RegisterServices();
 
 var app = builder.Build();
 app.UseExceptionHandler();
@@ -40,6 +41,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseHealthChecks("/healtz");
+
+app.UseBrandEndpoints(); //Products!!!!! Cycle on get products
+app.UseProductEndpoints();
+
 using (var scope = app.Services.CreateScope())
 {
     if (!scope.ServiceProvider.GetService<AppDbContext>()!.Database.CanConnect())

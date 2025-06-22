@@ -19,7 +19,7 @@ namespace VendingMachineApi.Repositories
             await _context.SaveChangesAsync();
             return brand.Entity;
         }
-        public async Task<IEnumerable<Brand>> GetAll()
+        public async Task<List<Brand>> GetAll()
         {
             return await _brands.AsNoTracking().ToListAsync();
         }

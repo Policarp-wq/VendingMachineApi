@@ -14,7 +14,7 @@ namespace VendingMachineApi.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Coin>> GetAll()
+        public async Task<List<Coin>> GetAll()
         {
             return await _coins
                 .AsNoTracking()

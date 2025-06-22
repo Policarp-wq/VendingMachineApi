@@ -26,7 +26,7 @@ namespace VendingMachineApi.Repositories
             return res.Entity;
         }
         //can be added pagination
-        public async Task<IEnumerable<Order>> GetAll()
+        public async Task<List<Order>> GetAll()
         {
             return await _orders
                 .AsNoTracking()

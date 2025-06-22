@@ -12,9 +12,9 @@ namespace VendingMachineApi.Services
             _brandRepository = brandRepository;
         }
 
-        public async Task<Brand> Create(string name)
+        public async Task Create(string name)
         {
-            return await _brandRepository.CreateBrand(name);
+            await _brandRepository.CreateBrand(name);
         }
         public async Task<IEnumerable<Brand>> GetAll()
         {

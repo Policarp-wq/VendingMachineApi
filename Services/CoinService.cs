@@ -20,7 +20,7 @@ namespace VendingMachineApi.Services
         {
             await _coinRepository.ReduceCoin((int)coinQuantity.ValueName, coinQuantity.Quantity);
         }
-        public async Task<IEnumerable<Coin>> GetAll()
+        public async Task<List<Coin>> GetAll()
         {
             return await _coinRepository.GetAll();
         }
