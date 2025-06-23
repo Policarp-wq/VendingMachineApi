@@ -8,13 +8,15 @@ namespace VendingMachineApi.ApiContracts
         public int BrandId { get; }
         public int Amount { get; }
         public int Price { get; }
+        public string Image { get; }
 
-        public ProductCreateInfo(string name, int brandId, int amount, int price)
+        public ProductCreateInfo(string name, int brandId, int amount, int price, string image)
         {
             Name = name;
             BrandId = brandId;
             Amount = amount;
             Price = price;
+            Image = image;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

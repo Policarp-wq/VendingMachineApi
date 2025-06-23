@@ -13,34 +13,34 @@ namespace VendingMachineApi.Services
         {
             _productRepository = productRepository;
         }
-        public Task<Product> CreateProduct(ProductCreateInfo createInfo)
+        public async Task<Product> CreateProduct(ProductCreateInfo createInfo)
         {
-            return _productRepository.CreateProduct(createInfo);
+            return await _productRepository.CreateProduct(createInfo);
         }
 
-        public Task<int> GetTotal(List<ProductQuantity> products)
+        public async Task<int> GetTotal(List<ProductQuantity> products)
         {
-            return _productRepository.GetTotal(products);
+            return await _productRepository.GetTotal(products);
         }
 
-        public Task<IEnumerable<Product>> GetAll()
+        public async Task<IEnumerable<ProductInfo>> GetAll()
         {
-            return _productRepository.GetAll();
+            return (await _productRepository.GetAll()).Select(ProductInfo.ToDto);
         }
 
-        public Task<Product?> GetById(int id)
+        public async Task<Product?> GetById(int id)
         {
-            return _productRepository.GetById(id);
+            return await _productRepository.GetById(id);
         }
 
-        public Task<IEnumerable<Product>> GetFiltered(ProductFilter filter)
+        public async Task<IEnumerable<ProductInfo>> GetFiltered(ProductFilter filter)
         {
-            return _productRepository.GetFiltered(filter);
+            return (await _productRepository.GetFiltered(filter)).Select(ProductInfo.ToDto);
         }
 
-        public Task<bool> ReduceAmount(int productId, int delta)
+        public async Task<bool> ReduceAmount(int productId, int delta)
         {
-            return _productRepository.ReduceAmount(productId, delta);
+            return await _productRepository.ReduceAmount(productId, delta);
         }
     }
 }

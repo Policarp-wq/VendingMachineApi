@@ -13,12 +13,12 @@ namespace VendingMachineApi.Endpoints
         {
             var group = builder.MapGroup("product");
             group.MapGet("/", GetAll);
-            group.MapPost("/", CreateProduct);
             group.MapGet("/filtered", GetFiltered);
+            group.MapPost("/", CreateProduct);
             return builder;
         }
 
-        public static async Task<Ok<IEnumerable<Product>>> GetAll(IProductService productService)
+        public static async Task<Ok<IEnumerable<ProductInfo>>> GetAll(IProductService productService)
         {
             var products = await productService.GetAll();
             return TypedResults.Ok(products);
@@ -27,7 +27,7 @@ namespace VendingMachineApi.Endpoints
         {
             return TypedResults.Ok(await productService.CreateProduct(createInfo));
         }
-        public static async Task<Results<Ok<IEnumerable<Product>>, BadRequest<string>>> GetFiltered(IProductService productService, [FromQuery] string? brand, int? minPrice , int? maxPrice)
+        public static async Task<Results<Ok<IEnumerable<ProductInfo>>, BadRequest<string>>> GetFiltered(IProductService productService, [FromQuery] string? brand, int? minPrice, int? maxPrice)
         {
             if (minPrice is < 0)
                 return TypedResults.BadRequest("Min price is negative");

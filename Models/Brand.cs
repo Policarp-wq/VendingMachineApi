@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace VendingMachineApi.Models
+﻿namespace VendingMachineApi.Models
 {
     public class Brand
     {

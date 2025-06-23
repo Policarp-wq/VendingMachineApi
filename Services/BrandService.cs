@@ -1,4 +1,4 @@
-﻿using VendingMachineApi.Models;
+﻿using VendingMachineApi.ApiContracts;
 using VendingMachineApi.Repositories;
 
 namespace VendingMachineApi.Services
@@ -16,9 +16,9 @@ namespace VendingMachineApi.Services
         {
             await _brandRepository.CreateBrand(name);
         }
-        public async Task<IEnumerable<Brand>> GetAll()
+        public async Task<IEnumerable<BrandInfo>> GetAll()
         {
-            return await _brandRepository.GetAll();
+            return (await _brandRepository.GetAll()).Select(BrandInfo.ToDto);
         }
     }
 }

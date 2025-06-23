@@ -12,17 +12,14 @@ namespace VendingMachineApi.Services
         {
             _coinRepository = coinRepository;
         }
-        public async Task AddCoin(CoinQuantity coinQuantity)
-        {
-            await _coinRepository.AddCoin((int)coinQuantity.ValueName, coinQuantity.Quantity);
-        }
-        public async Task ReduceCoin(CoinQuantity coinQuantity)
-        {
-            await _coinRepository.ReduceCoin((int)coinQuantity.ValueName, coinQuantity.Quantity);
-        }
         public async Task<List<Coin>> GetAll()
         {
             return await _coinRepository.GetAll();
+        }
+
+        public async Task<Coin> ChangeAmount(CoinQuantity coinQuantity)
+        {
+            return await _coinRepository.UpdateCoinAmount((int)coinQuantity.ValueName, coinQuantity.Quantity);
         }
     }
 }

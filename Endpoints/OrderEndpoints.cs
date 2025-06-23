@@ -8,9 +8,11 @@ namespace VendingMachineApi.Endpoints
 {
     public static class OrderEndpoints
     {
-        public static IEndpointRouteBuilder UseBrandEndpoints(this IEndpointRouteBuilder builder)
+        public static IEndpointRouteBuilder UseOrderEndpoints(this IEndpointRouteBuilder builder)
         {
             var group = builder.MapGroup("order");
+            group.MapGet("/", GetOrders);
+            group.MapPost("/", CreateOrder);
             return builder;
         }
         public static async Task<Results<Ok<List<CoinQuantity>>, BadRequest>> CreateOrder(IOrderService service, [FromBody] OrderInfo info)

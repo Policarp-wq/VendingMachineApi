@@ -11,7 +11,7 @@ namespace VendingMachineApi.ApiContracts
         {
             if (ProductId <= 0)
                 yield return new ValidationResult("Product id must be natural");
-            if(Quantity <= 0)
+            if (Quantity <= 0)
                 yield return new ValidationResult("Quantity must be natural");
         }
     }

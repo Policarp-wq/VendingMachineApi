@@ -26,7 +26,19 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.RegisterServices();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.SetIsOriginAllowed(origin =>
+            origin.StartsWith("http://localhost") || origin.StartsWith("https://localhost"))
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
+app.UseCors("AllowLocalhost");
 app.UseExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
@@ -42,8 +54,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHealthChecks("/healtz");
 
-app.UseBrandEndpoints(); //Products!!!!! Cycle on get products
-app.UseProductEndpoints();
+UseEndpoints(app);
 
 using (var scope = app.Services.CreateScope())
 {
@@ -54,4 +65,13 @@ using (var scope = app.Services.CreateScope())
     if (postgres.Status != HealthStatus.Healthy)
         throw new Exception("Db is unhealthy");
 }
+
 app.Run();
+
+static void UseEndpoints(WebApplication app)
+{
+    app.UseBrandEndpoints();
+    app.UseProductEndpoints();
+    app.UseCoinEndpoints();
+    app.UseOrderEndpoints();
+}

@@ -9,7 +9,7 @@ namespace VendingMachineApi.Models
         private Dictionary<CoinValue, int> _coins;
         public int GetAmount(CoinValue val) => _coins.GetValueOrDefault(val);
         public int GetAmount(int val) => _coins.GetValueOrDefault(Caster.GetValueOrDefault(val));
-        public int Sum => _coins.Sum(c => (int)c.Key * c.Value);
+        public int Total => _coins.Sum(c => (int)c.Key * c.Value);
         public List<CoinQuantity> Coins => Enum.GetValues<CoinValue>().Select(v => new CoinQuantity() { Quantity = GetAmount(v), ValueName = v }).ToList();
         public Wallet(IEnumerable<CoinQuantity> coins)
         {
@@ -27,6 +27,27 @@ namespace VendingMachineApi.Models
                 _coins.Add(Caster[coin.Value], coin.Amount);
             }
         }
-
+        public Wallet GetSum(Wallet wallet)
+        {
+            List<CoinQuantity> coins = new List<CoinQuantity>();
+            foreach (var value in Enum.GetValues<CoinValue>())
+            {
+                coins.Add(new CoinQuantity() { ValueName = value, Quantity = GetAmount(value) + wallet.GetAmount(value) });
+            }
+            return new Wallet(coins);
+        }
+        public static Wallet Add(Wallet a, Wallet b)
+        {
+            var coins = new List<CoinQuantity>();
+            foreach (var value in Enum.GetValues<CoinValue>())
+            {
+                coins.Add(new CoinQuantity
+                {
+                    ValueName = value,
+                    Quantity = a.GetAmount(value) + b.GetAmount(value)
+                });
+            }
+            return new Wallet(coins);
+        }
     }
 }

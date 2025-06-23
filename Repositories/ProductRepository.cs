@@ -26,6 +26,7 @@ namespace VendingMachineApi.Repositories
         {
             return await _products
                 .AsNoTracking()
+                .Include(p => p.Brand)
                 .ApplyFilters(filter)
                 .ToListAsync();
         }
@@ -39,6 +40,7 @@ namespace VendingMachineApi.Repositories
                 Amount = createInfo.Amount,
                 BrandId = createInfo.BrandId,
                 Price = createInfo.Price,
+                Image = createInfo.Image,
             });
             await _context.SaveChangesAsync();
             return res.Entity;
@@ -82,6 +84,7 @@ namespace VendingMachineApi.Repositories
         {
             return await _products
                 .AsNoTracking()
+                .Include(p => p.Brand)
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
     }

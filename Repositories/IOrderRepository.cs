@@ -1,5 +1,4 @@
-﻿using VendingMachineApi.ApiContracts;
-using VendingMachineApi.Models;
+﻿using VendingMachineApi.Models;
 
 namespace VendingMachineApi.Repositories
 {

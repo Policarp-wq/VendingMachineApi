@@ -5,12 +5,12 @@ namespace VendingMachineApi.Utility
 {
     public static class CoinsManager
     {
-        public static bool TryGetChange(Wallet have, Wallet spend, out Wallet wallet)
+        public static bool TryGetChange(Wallet have, Wallet spend, int orderTotal, out Wallet changeRes)
         {
             int[] availableValues = Wallet.CoinValuesDescending;
-            int rest = spend.Sum;
+            int rest = spend.Total - orderTotal;
             List<CoinQuantity> change = [];
-            foreach(var val in availableValues)
+            foreach (var val in availableValues)
             {
                 int left = have.GetAmount(val) - rest / val;
                 if (left < 0)
@@ -19,7 +19,7 @@ namespace VendingMachineApi.Utility
                 rest -= given * val;
                 change.Add(new CoinQuantity { ValueName = Wallet.Caster[val], Quantity = given });
             }
-            wallet = new Wallet(change);
+            changeRes = new Wallet(change);
             return rest == 0;
         }
     }
